@@ -1,6 +1,24 @@
 # bot-tg-agregate
 
-## Тестовое задание junior python developer
+## Запуск
+
+- Создать файл `.env` с следующим содержимым:
+```dotenv
+MONGO_DATABASE=your_database
+MONGO_USER=your_user
+MONGO_PASSWORD=your_password
+```
+- Разархивировать архив с дампом базы (в дирректории будет лежать файл `sampleDB`)
+- Создать дирректорию `docker-entrypoint-initdb.d`
+  - Создать в ней файл `mongorestore.sh` с следующим содержимым:
+  ```bash
+  mongorestore -d your_database /sampleDB
+  ```
+- Выполнить `docker-compose up`
+
+
+
+## Задание: Тестовое задание junior python developer
 - Время на выполнение: 4-6 часов
 - Стек: Python3, Asyncio, MongoDB, любая асинхронная библиотека для телеграм бота
 

@@ -22,9 +22,14 @@
 build/
 dist/
 
-## local dev stuff
-local/
 
+# Docker stuff
+.volumes
+docker-entrypoint-initdb.d
+
+# local dev stuff
+local/
+sampleDB
 
 # IDE/Code specific
 .idea

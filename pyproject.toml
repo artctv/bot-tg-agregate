@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "bot-tg-agregate"
+version = "0.1.0"
+description = ""
+authors = ["Artem 'artctv' <artctvcode@gmail.com>"]
+readme = "README.md"
+packages = [{include = "bot_tg_agregate"}]
+
+[tool.poetry.dependencies]
+python = "3.9.15"
+aiogram = "^2.25.1"
+motor = "^3.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

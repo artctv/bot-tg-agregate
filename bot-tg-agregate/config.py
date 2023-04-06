@@ -1,7 +1,11 @@
+import os
 from dotenv import dotenv_values
 
 
-_env_values: dict = dotenv_values(".env")
+_env_values: dict = {
+    **dotenv_values(".env"),
+    **os.environ
+}
 
 
 class Config:

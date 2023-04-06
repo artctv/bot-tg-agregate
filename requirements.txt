@@ -13,5 +13,6 @@ magic-filter==1.0.9
 motor==3.1.2
 multidict==6.0.4
 pymongo==4.3.3
+python-dotenv==1.0.0
 pytz==2023.3
 yarl==1.8.2

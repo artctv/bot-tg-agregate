@@ -13,7 +13,7 @@ class AgregateResultDTO:
 
 class AgregateBuilder:
     """
-    Class whic accumulate logick over building mongodb aggregating pipline
+    Class which accumulate logick over building mongodb aggregating pipline
     """
     dt_from: datetime
     dt_upto: datetime

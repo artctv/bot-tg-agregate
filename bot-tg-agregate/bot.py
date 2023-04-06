@@ -50,8 +50,13 @@ async def send_aggregation(message: types.Message):
     dict_message = await parse_message(message)
     if dict_message:
         client = get_db()
-        collection = client.agregate.sample_collection
+        collection = client[Config.MONGO_DATABASE].sample_collection
         agregated: AgregateResultDTO = await get_agregated(collection, **dict_message)
-        await message.answer(json.dumps(asdict(agregated)))
+        result = json.dumps(asdict(agregated))
+        if len(result) > 4096:
+            for x in range(0, len(result), 4096):
+                await message.answer(result[x:x + 4096])
+        else:
+            await message.answer(result)
 
 

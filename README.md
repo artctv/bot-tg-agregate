@@ -4,18 +4,6 @@
 
 - Создать файл `.env` с следующим содержимым:
 ```dotenv
-MONGO_DATABASE=your_database
-MONGO_USER=your_user
-MONGO_PASSWORD=your_password
-```
-- Разархивировать архив с дампом базы (в дирректории будет лежать файл `sampleDB`)
-- Создать дирректорию `docker-entrypoint-initdb.d`
-  - Создать в ней файл `mongorestore.sh` с следующим содержимым:
-  ```bash
-  mongorestore -d your_database /sampleDB
-  ```
-- Создать файл .env и указать в нём следующие значения:
-```dotenv
 MONGO_DATABASE=<your_database_name>
 MONGO_USER=<your_mongo_user>
 MONGO_PASSWORD=<your_mongo_password>
@@ -23,6 +11,12 @@ MONGO_ADDRESS=<your_mongo_address>
 MONGO_PORT=<your_mongo_port>
 BOT_API_TOKEN=<your_telegram_bot_api_token>
 ```
+- Разархивировать архив с дампом базы (в дирректории будет лежать файл `sampleDB`)
+- Создать дирректорию `docker-entrypoint-initdb.d`
+  - Создать в ней файл `mongorestore.sh` с следующим содержимым:
+  ```bash
+  mongorestore -d your_database /sampleDB
+  ```
 - Выполнить `docker-compose up`
 
 

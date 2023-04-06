@@ -14,6 +14,15 @@ MONGO_PASSWORD=your_password
   ```bash
   mongorestore -d your_database /sampleDB
   ```
+- Создать файл .env и указать в нём следующие значения:
+```dotenv
+MONGO_DATABASE=<your_database_name>
+MONGO_USER=<your_mongo_user>
+MONGO_PASSWORD=<your_mongo_password>
+MONGO_ADDRESS=<your_mongo_address>
+MONGO_PORT=<your_mongo_port>
+BOT_API_TOKEN=<your_telegram_bot_api_token>
+```
 - Выполнить `docker-compose up`
 
 

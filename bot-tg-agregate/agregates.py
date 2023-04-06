@@ -40,7 +40,7 @@ class AgregateBuilder:
         return _map.get(self.group_type)
 
     def _build_match(self, date_variable: str) -> None:
-        """Builds a match field for the specified time period to sample data """
+        """Builds a match field for the specified time period to sample data"""
         self.pipline.append(
            {"$match": {date_variable: self._get_time_window()}}
         )
@@ -51,7 +51,7 @@ class AgregateBuilder:
             - Depending on the selected `group_type`, the time cutoff point for grouping data will change
             For example: if we want to group data by days, we need to cut off hours, minutes and seconds
             (according to the ISO format), and if we want group by months, then we must also discard the day
-            (in this case, instead of discarding, the dat set to `01`)
+            (in this case, instead of discarding, the day set to `01`)
             - Field `data` it is just a sum of `value_variable` over groupping period
         """
         self.pipline.append(
@@ -74,7 +74,7 @@ class AgregateBuilder:
             {"$sort": {"_id": sort_value}}
         )
 
-    def build_pipiline(self, date_variable: str, value_variable: str, sort_value: int):
+    def build_pipiline(self, date_variable: str, value_variable: str, sort_value: int) -> list[dict]:
         """Build all part of pipeline for mongodb aggregate"""
         self._build_match(date_variable)
         self._build_group(date_variable, value_variable)

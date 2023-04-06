@@ -1,7 +1,9 @@
 import asyncio
 from datetime import datetime
 from dataclasses import asdict
+from aiogram import executor
 from db import get_db
+from bot import dp
 from agregates import get_agregated, AgregateResultDTO
 from enums import GroupTypeEnum
 
@@ -21,5 +23,6 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    # asyncio.run(main())
+    executor.start_polling(dp, skip_updates=True)
 

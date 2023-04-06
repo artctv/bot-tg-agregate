@@ -12,3 +12,5 @@ class Config:
     MONGO_ADDRESS: str = _env_values["MONGO_ADDRESS"]
     MONGO_PORT: str = _env_values["MONGO_PORT"]
     MONGO_URI: str = "mongodb://{user}:{password}@{address}:{port}"
+
+    BOT_API_TOKEN: str = _env_values["BOT_API_TOKEN"]

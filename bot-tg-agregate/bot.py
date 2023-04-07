@@ -1,3 +1,4 @@
+import logging
 import json
 from dataclasses import asdict
 from datetime import datetime
@@ -9,6 +10,7 @@ from enums import GroupTypeEnum
 from messages import MESSAGE_REQUEST_EXAMPLE, MESSAGE_AVAIBLE_FORMATS
 
 
+logging.basicConfig(level=logging.INFO)
 bot = Bot(token=Config.BOT_API_TOKEN)
 dp = Dispatcher(bot)
 
@@ -48,6 +50,10 @@ async def send_aggregation(message: types.Message):
     This handler will be called for any message and if message has correct format will execute request to mongodb
     """
     dict_message = await parse_message(message)
+    # print(f"recieved messages: {message.text}")
+    # logging.INFO(f"recieved messages: {message.text}")
+    logger = logging.getLogger(__name__)
+    logger.info(f"recieved messages: {message.text}")
     if dict_message:
         client = get_db()
         collection = client[Config.MONGO_DATABASE].sample_collection

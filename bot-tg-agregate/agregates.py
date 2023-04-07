@@ -1,5 +1,7 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
+from copy import copy
+from functools import partial
 from typing import Any
 from enums import GroupTypeEnum
 
@@ -7,7 +9,7 @@ from enums import GroupTypeEnum
 @dataclass
 class AgregateResultDTO:
     """Data Transfer Object according required format"""
-    dataset: list[str]
+    dataset: list[int]
     labels: list[str]
 
 
@@ -25,6 +27,37 @@ class AgregateBuilder:
         self.dt_upto = dt_upto
         self.group_type = group_type
         self.pipline = list()
+
+    def _get_list_of_dates_by_delta(self, delta: timedelta) -> list[str]:
+        """Return list of date&times between two dates with step day or hour"""
+        start_date, end_date = copy(self.dt_from), self.dt_upto
+        _list, time_format = [], self._get_time_format()
+        while start_date < end_date:
+            _list.append(start_date.strftime(time_format))
+            start_date += delta
+        return _list
+
+    def _get_list_of_month(self) -> list[str]:
+        """Return list of dates between two dates with step by one month"""
+        start_year, start_month = self.dt_from.year, self.dt_from.month
+        end_year, end_month = self.dt_upto.year, self.dt_upto.month
+        ym_start = 12 * start_year + start_month - 1
+        ym_end = 12 * end_year + end_month
+        _list, time_format = [], self._get_time_format()
+        for ym in range(ym_start, ym_end):
+            y, m = divmod(ym, 12)
+            dt = datetime(year=y, month=m+1, day=1)
+            _list.append(dt.strftime(time_format))
+        return _list
+
+    def get_time_value_map(self) -> dict[str, int]:
+        _map = {
+            GroupTypeEnum.hour: partial(self._get_list_of_dates_by_delta, timedelta(hours=1)),
+            GroupTypeEnum.day: partial(self._get_list_of_dates_by_delta, timedelta(days=1)),
+            GroupTypeEnum.month: self._get_list_of_month
+        }
+        _slice = _map.get(self.group_type)()
+        return dict.fromkeys(_slice, 0)
 
     def _get_time_window(self) -> dict[str, datetime]:
         """Return time window over `dt_from` and `dt_upto`"""
@@ -90,9 +123,13 @@ async def get_agregated(
 ) -> AgregateResultDTO:
     builder = AgregateBuilder(dt_from, dt_upto, group_type)
     pipeline = builder.build_pipiline(date_variable="dt", value_variable="value", sort_value=1)
-    dataset, labels = [], []
+    time_map = builder.get_time_value_map()
+
     async for document in collection.aggregate(pipeline):
         label, data = document["_id"]["label"], document["data"]
-        labels.append(label)
-        dataset.append(data)
-    return AgregateResultDTO(dataset=dataset, labels=labels)
+        time_map[label] = data
+
+    return AgregateResultDTO(
+        dataset=list(time_map.values()),
+        labels=list(time_map.keys())
+    )

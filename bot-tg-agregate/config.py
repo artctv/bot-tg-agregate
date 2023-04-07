@@ -18,3 +18,4 @@ class Config:
     MONGO_URI: str = "mongodb://{user}:{password}@{address}:{port}"
 
     BOT_API_TOKEN: str = _env_values["BOT_API_TOKEN"]
+    BOT_MAX_MESSAGE_SIZE: int = 4096

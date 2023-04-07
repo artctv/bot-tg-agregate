@@ -11,6 +11,7 @@ from messages import MESSAGE_REQUEST_EXAMPLE, MESSAGE_AVAIBLE_FORMATS
 
 
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 bot = Bot(token=Config.BOT_API_TOKEN)
 dp = Dispatcher(bot)
 
@@ -50,19 +51,14 @@ async def send_aggregation(message: types.Message):
     This handler will be called for any message and if message has correct format will execute request to mongodb
     """
     dict_message = await parse_message(message)
-    # print(f"recieved messages: {message.text}")
-    # logging.INFO(f"recieved messages: {message.text}")
-    logger = logging.getLogger(__name__)
     logger.info(f"recieved messages: {message.text}")
     if dict_message:
         client = get_db()
         collection = client[Config.MONGO_DATABASE].sample_collection
         agregated: AgregateResultDTO = await get_agregated(collection, **dict_message)
         result = json.dumps(asdict(agregated))
-        if len(result) > 4096:
+        if len(result) > Config.BOT_MAX_MESSAGE_SIZE:
             for x in range(0, len(result), 4096):
                 await message.answer(result[x:x + 4096])
         else:
             await message.answer(result)
-
-

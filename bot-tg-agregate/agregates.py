@@ -13,7 +13,7 @@ class AgregateResultDTO:
     labels: list[str]
 
 
-class AgregateBuilder:
+class AgregatePipilineBuilder:
     """
     Class which accumulate logick over building mongodb aggregating pipline
     """
@@ -121,7 +121,7 @@ async def get_agregated(
     dt_upto: datetime,
     group_type: GroupTypeEnum
 ) -> AgregateResultDTO:
-    builder = AgregateBuilder(dt_from, dt_upto, group_type)
+    builder = AgregatePipilineBuilder(dt_from, dt_upto, group_type)
     pipeline = builder.build_pipiline(date_variable="dt", value_variable="value", sort_value=1)
     time_map = builder.get_time_value_map()
 

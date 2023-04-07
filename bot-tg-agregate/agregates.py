@@ -32,7 +32,7 @@ class AgregateBuilder:
         """Return list of date&times between two dates with step day or hour"""
         start_date, end_date = copy(self.dt_from), self.dt_upto
         _list, time_format = [], self._get_time_format()
-        while start_date < end_date:
+        while start_date <= end_date:
             _list.append(start_date.strftime(time_format))
             start_date += delta
         return _list

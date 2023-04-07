@@ -11,7 +11,7 @@ MONGO_ADDRESS=<your_mongo_address>
 MONGO_PORT=<your_mongo_port>
 BOT_API_TOKEN=<your_telegram_bot_api_token>
 ```
-- Разархивировать архив с дампом базы (в дирректории будет лежать файл `sampleDB`)
+- Разархивировать архив с дампом базы так что бы в корневом каталоге появился файл `sampleDB`
 - Создать дирректорию `docker-entrypoint-initdb.d`
   - Создать в ней файл `mongorestore.sh` с следующим содержимым:
   ```bash

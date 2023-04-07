@@ -15,7 +15,7 @@ BOT_API_TOKEN=<your_telegram_bot_api_token>
 - Создать дирректорию `docker-entrypoint-initdb.d`
   - Создать в ней файл `mongorestore.sh` с следующим содержимым:
   ```bash
-  mongorestore -d your_database /sampleDB
+  mongorestore -d <your_database_name> /sampleDB
   ```
 - Выполнить `docker-compose up`
 
